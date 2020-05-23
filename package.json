@@ -28,5 +28,10 @@
     "stripe": "^7.5.0",
     "uuid": "^3.3.2",
     "validator": "^11.1.0"
+  },
+  "devDependencies": {
+    "brfs": "^2.0.2",
+    "json-loader": "^0.5.7",
+    "transform-loader": "^0.2.4"
   }
 }
