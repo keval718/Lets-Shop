@@ -1,7 +1,12 @@
 import {Menu,Container,Image,Icon} from 'semantic-ui-react';
 import Link from 'next/link';
-import{useRouter} from 'next/router'
+import Router,{useRouter} from 'next/router'
+import NProgress from 'nprogress'
 
+// This is used for loading when we click any link the blue line goes util it get load and loa
+Router.onRouteChangeStart=()=> NProgress.start();
+Router.onRouteChangeComplete=()=>NProgress.done();
+Router.onRouteChnageError=()=>NProgress.done();
 function Header() {
   const router=useRouter()
   function isActive(route)
