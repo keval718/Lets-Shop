@@ -1,13 +1,24 @@
 import {Menu,Container,Image,Icon} from 'semantic-ui-react';
 import Link from 'next/link';
+import Router,{useRouter} from 'next/router'
+import NProgress from 'nprogress'
 
+// This is used for loading when we click any link the blue line goes util it get load and loa
+Router.onRouteChangeStart=()=> NProgress.start();
+Router.onRouteChangeComplete=()=>NProgress.done();
+Router.onRouteChnageError=()=>NProgress.done();
 function Header() {
+  const router=useRouter()
+  function isActive(route)
+  {
+    return route==router.pathname;
+  }
   const user=true;
   return( 
    <Menu fluid id="menu" inverted>
      <Container text>
        <Link href="/">
-         <Menu.Item header>
+         <Menu.Item header active={isActive('/')}>
            <image
            size="mini"
            src="../static/logo.svg"
@@ -17,7 +28,7 @@ function Header() {
          </Menu.Item>
        </Link>  
        <Link href="/cart">
-         <Menu.Item header>
+         <Menu.Item header active={isActive('/cart')}>
            <Icon
            name="cart"
            size="large"
@@ -27,7 +38,7 @@ function Header() {
        </Link> 
        { user &&(
        <Link href="/create">
-         <Menu.Item header>
+         <Menu.Item header active={isActive('/create')}>
            <Icon
            name="add square"
            size="large"
@@ -38,7 +49,7 @@ function Header() {
        {/* This is used to check if the user is logn in or not is yes then will show account and signout and if not : will show login signup */}
       { user? (<>
        <Link href="/account">
-         <Menu.Item header>
+         <Menu.Item header active={isActive('/account')}>
            <Icon
            name="user"
            size="large"
@@ -46,7 +57,7 @@ function Header() {
          Account
          </Menu.Item>  
        </Link> 
-         <Menu.Item header>
+         <Menu.Item header >
            <Icon
            name="sign out"
            size="large"
@@ -57,7 +68,7 @@ function Header() {
       :
         ( <>
          <Link href="/login">
-         <Menu.Item header>
+         <Menu.Item header active={isActive('/login')}>
            <Icon
            name="sign in"
            size="large"
@@ -69,7 +80,7 @@ function Header() {
        
        </Link>  
        <Link href="/signup">
-         <Menu.Item header>
+         <Menu.Item header active={isActive('/signup')}>
            <Icon
            name="signup"
            size="large"
