@@ -30,6 +30,8 @@ function CreateProduct() {
   const [error, setError] = React.useState("");
 
   React.useEffect(() => {
+    //check for thruthy values
+    // to check wheter all the values are filled or not
     const isProduct = Object.values(product).every(el => Boolean(el));
     isProduct ? setDisabled(false) : setDisabled(true);
   }, [product]);
@@ -63,7 +65,7 @@ function CreateProduct() {
   }
 
   async function handleSubmit(event) {
-    // try {
+     try {
       event.preventDefault();
       setLoading(true);
      console.log(product+"products")
@@ -78,12 +80,12 @@ function CreateProduct() {
       console.log(res);
        setProduct(INITIAL_PRODUCT);
       setSuccess(true);
-    // } catch (error) {
-    //   console.error(error);
-    //   catchErrors(error, setError);
-    // } finally {
-    //   setLoading(false);
-    // }
+     } catch (error) {
+     // console.error(error);
+       catchErrors(error, setError);
+     } finally {
+       setLoading(false);
+     }
   }
 
   return (
