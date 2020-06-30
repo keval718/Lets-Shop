@@ -13,7 +13,7 @@ function Header() {
   {
     return route==router.pathname;
   }
-  const user=true;
+  const user=false;
   return( 
    <Menu  stackable fluid id="menu" inverted>
      <Container text>
