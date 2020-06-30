@@ -88,7 +88,7 @@ function Login() {
           icon="sign in"
           type="submit"
           disabled={disabled || loading}
-          color="orange"
+          color="red"
           content="Login"
         />
       </Segment>
