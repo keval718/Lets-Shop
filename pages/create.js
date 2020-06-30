@@ -69,7 +69,7 @@ function CreateProduct() {
       event.preventDefault();
       setLoading(true);
      console.log(product+"products")
-    //   setError("");
+       setError("");
         const mediaUrl = await handleImageUpload();
         console.log({mediaUrl});
       const url = `${baseUrl}/api/product`;
