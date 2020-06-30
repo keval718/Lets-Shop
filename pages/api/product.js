@@ -1,5 +1,8 @@
 import Product from '../../models/Product';
 import ProductList from '../../components/Index/ProductList';
+import connectDB from '../../utils/connectDb';
+
+connectDB();
 
 export default async (req,res)=>{
   switch(req.method)
@@ -7,6 +10,9 @@ export default async (req,res)=>{
     case "GET": 
     await handleGetRequest(req,res);
     break;
+    case "POST":
+      await handlePostRequest(req, res);
+      break;
     case "DELETE":
     await handleDeleteRequest(req,res);
     break;
@@ -29,4 +35,24 @@ async function handleDeleteRequest(req,res){
    await Product.findOneAndDelete({_id})
    res.status(204).json({})
 
+}
+async function handlePostRequest(req, res) {
+  //this is called destructing
+  const { name, price, description, mediaUrl } = req.body;
+  console.log("In product end point "+name+price+description+mediaUrl);
+  try {
+    if (!name || !price || !description || !mediaUrl) {
+      return res.status(422).send("Product missing one or more fields");
+    }
+    const product = await new Product({
+      name,
+      price,
+      description,
+      mediaUrl
+    }).save();
+    res.status(201).json(product);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error in creating product");
+  }
 }
