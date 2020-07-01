@@ -7,8 +7,9 @@ import isLength from 'validator/lib/isLength';
 import Cart from '../../models/Cart';
 
 connectDb();
-export default async (req,res)=>{
-    const {name,email,password}=req.body
+
+export default async(req,res)=>{
+    const {name,email,password} = req.body;
     try{
         //validations
         if(!isLength(name,{min:3,max:10})){
@@ -18,31 +19,35 @@ export default async (req,res)=>{
         } else if(!isEmail(email)){
             return res.status(422).send("Email must be valid");
         }
-        //1)check if the user already exist in database or not
-        //2)if not hash password
-        //3)crerate user
-        //4)create token for new user
 
-      const user= await   User.findOne({email})
-        if(user)
-        {
-            return res.status(422).send("user already exists please login");
+        //Check if user exists
+        const user = await User.findOne({email : email});
+        if(user){
+            return res.status(422).send(`User exists with email ${email}`);
         }
+
+        //hash the password
         const hash = await bcrypt.hash(password, 10);
-        const newUser= await new User({
+
+        //create user
+        const newUser = await new User({
             name,
             email,
             password:hash
         }).save();
+        console.log({newUser})
 
-        console.log(newUser);
+        //create cart for new user
+       // const cart = await new Cart({user:newUser._id}).save();
 
-        const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {expiresIn:'1d'})
+        //create token for new user
+        const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {expiresIn:'7d'})
+
+        //send token
         res.status(201).json(token);
     }
-    catch(error)
-    {
-       console.log(error);
-       
+    catch(error){
+        console.error(error);
+        res.status(500).send('Server error. Error signing up. Please try again');
     }
 }
