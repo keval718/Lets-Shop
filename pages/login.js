@@ -33,11 +33,11 @@ function Login() {
       setLoading(true)
       setError('');
       console.log(user);
-      // const url = `${baseUrl}/api/login`
-      // const payload = {...user};
+       const url = `${baseUrl}/api/login`
+       const payload = {...user};
 
-      // const response = await axios.post(url,payload);
-      // handleLogin(response.data);
+       const response = await axios.post(url,payload);
+       handleLogin(response.data);
       
     } catch (error) {
       catchErrors(error,setError)
