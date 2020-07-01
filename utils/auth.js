@@ -1,4 +1,6 @@
-import cookie from 'js-cookie';
+
+
+
 import Router from 'next/router';
 
 export function handleLogin(token){
@@ -19,4 +21,5 @@ export function handleLogout() {
     cookie.remove('token');
     window.localStorage.setItem('logout',Date.now());
     Router.push("/login");
+
 }
