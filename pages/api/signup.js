@@ -38,7 +38,7 @@ export default async(req,res)=>{
         console.log({newUser})
 
         //create cart for new user
-       // const cart = await new Cart({user:newUser._id}).save();
+        const cart = await new Cart({user:newUser._id}).save();
 
         //create token for new user
         const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {expiresIn:'7d'})
