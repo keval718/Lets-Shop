@@ -3,11 +3,11 @@ import ProductSummary from '../components/Product/ProductSummary';
 import ProductAttributes from '../components/Product/ProductAttributes';
 import baseUrl from '../utils/baseUrl'
 
-function Product(product) {
-  console.log(product.product);
+function Product({product,user}) {
+  console.log(product);
   return <>
-  <ProductSummary{...product.product}/>
-  <ProductAttributes {...product.product}/>
+  <ProductSummary {...product}/>
+  <ProductAttributes user={user}  {...product}/>
   </>;
 }
 Product.getInitialProps= async({query:{_id}})=>{

@@ -2,18 +2,23 @@ import {Menu,Container,Image,Icon} from 'semantic-ui-react';
 import Link from 'next/link';
 import Router,{useRouter} from 'next/router'
 import NProgress from 'nprogress'
+import { handleLogout } from '../../utils/auth';
+
 
 // This is used for loading when we click any link the blue line goes util it get load and loa
 Router.onRouteChangeStart=()=> NProgress.start();
 Router.onRouteChangeComplete=()=>NProgress.done();
 Router.onRouteChnageError=()=>NProgress.done();
-function Header() {
+function Header({user}) {
   const router=useRouter()
+  const isRoot = user && user.role === 'root';
+  const isAdmin = user && user.role === 'admin';
+  const isRootorAdmin=isRoot||isAdmin
   function isActive(route)
   {
     return route==router.pathname;
   }
-  const user=false;
+
   return( 
    <Menu  stackable fluid id="menu" inverted>
      <Container text>
@@ -36,7 +41,7 @@ function Header() {
          Cart
          </Menu.Item>  
        </Link> 
-       { user &&(
+       { isRootorAdmin &&(
        <Link href="/create">
          <Menu.Item header active={isActive('/create')}>
            <Icon
@@ -57,7 +62,7 @@ function Header() {
          Account
          </Menu.Item>  
        </Link> 
-         <Menu.Item header >
+         <Menu.Item  onClick={ handleLogout} header >
            <Icon
            name="sign out"
            size="large"

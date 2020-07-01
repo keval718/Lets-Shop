@@ -4,9 +4,12 @@
  import baseUrl from '../../utils/baseUrl'
 import { Model, model } from 'mongoose'
 import {userRouter, useRouter} from 'next/router'
- function ProductAttributes({description,_id}) {
+ function ProductAttributes({description,_id,user}) {
   const router=useRouter()
   const [modal,setModal] = React.useState(false)
+  const isRoot = user && user.role === 'root';
+  const isAdmin = user && user.role === 'admin';
+  const isRootorAdmin=isRoot||isAdmin
   async function handleDelete()
   {
     const url=`${baseUrl}/api/product`;
@@ -19,6 +22,7 @@ import {userRouter, useRouter} from 'next/router'
   return <>
   <Header as="h3" >About this Poduct</Header>
   <p>{description}</p>
+ { isRootorAdmin && (<>
   <Button
   icon ="trash alternate outline"
   color="red"
@@ -46,6 +50,7 @@ import {userRouter, useRouter} from 'next/router'
     </Modal.Actions>
 
   </Modal>
+  </>)}
    </>;
 }
 
